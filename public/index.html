@@ -19,7 +19,7 @@
         scoresRes = await window.fetch("/update")
         if (scoresRes.ok) {
             const jsonScores = await scoresRes.json()
-            return Promise.resolve(jsonScores);
+            return Promise.resolve(jsonScores)
         } else {
             return Promise.reject()
         }

@@ -19,7 +19,7 @@ app.get('/update', (req, res) => {
 
 app.post('/update', (req, res) => {
     score = req.body
-    res.send('success');
+    res.send('success')
 })
 
-app.listen(port);
+app.listen(port)

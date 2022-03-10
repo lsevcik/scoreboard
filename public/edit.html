@@ -1,0 +1,52 @@
+<html>
+<body>
+    <div>
+        <span class="left">
+            <form autocomplete="off">
+                <input type="text" id="name1" tabindex="1">
+                <input type="number" id="score1" tabindex="2">
+            </form>
+            </span>
+            <span class="right">
+            <form autocomplete="off">
+                <input type="text" id="name2" tabindex="1">
+                <input type="number" id="score2" tabindex="2">
+            </form>
+            </span>
+        </form>
+    </div>
+    <script type="text/javascript">
+    const updateServer = async (json) => {
+        scoresRes = await window.fetch("/update", {method: "POST", body: JSON.stringify(json), headers: {"Content-type": "application/json"}})
+        if (scoresRes.ok) {
+            return Promise.resolve()
+        } else {
+            return Promise.reject()
+        }
+    }
+
+    const getScore = async () => {
+    let score = { firstTeam:
+        {name: "", score: 0},
+        secondTeam:
+        {name: "", score: 0}
+    }
+        score.firstTeam.name = document.getElementById('name1').value
+        score.secondTeam.name = document.getElementById('name2').value
+        score.firstTeam.score = document.getElementById('score1').value
+        score.secondTeam.score = document.getElementById('score2').value
+        return Promise.resolve(score)
+    }
+
+    window.setInterval(()=>{getScore().then(updateServer)}, 1000)
+
+    </script>
+    <style>
+    body { color: white; background: black; margin: 0; font-family: sans-serif; }
+    body div { text-align: center; width: 100vw; margin 0; background: gray; display: flex; justify-content: space-around; }
+    .left { text-align: left; }
+    .right { text-align: right; }
+    input { display: block; }
+    </style>
+</body>
+</html>
