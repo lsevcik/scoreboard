@@ -1,0 +1,45 @@
+<html>
+<body>
+    <div>
+        <span class="left">
+            <span id="name1">
+            </span>-
+            <span id="score1">
+            </span>
+        </span>
+        <span class="right">
+            <span id="name2">
+            </span>-
+            <span id="score2">
+            </span>
+        </span>
+    </div>
+    <script type="text/javascript">
+    const getNewScore = async () => {
+        scoresRes = await window.fetch("/update")
+        if (scoresRes.ok) {
+            const jsonScores = await scoresRes.json()
+            return Promise.resolve(jsonScores);
+        } else {
+            return Promise.reject()
+        }
+    }
+
+    const updateScore = async (json) => {
+        document.getElementById('name1').innerHTML = json.firstTeam.name
+        document.getElementById('name2').innerHTML = json.secondTeam.name
+        document.getElementById('score1').innerHTML = json.firstTeam.score
+        document.getElementById('score2').innerHTML = json.secondTeam.score
+    }
+
+    window.setInterval(()=>{getNewScore().then(updateScore)}, 1000)
+
+    </script>
+    <style>
+    body { color: white; background: black; margin: 0; font-size: 72pt; font-family: sans-serif; }
+    body div { text-align: center; width: 100vw; margin 0; background: gray; display: flex; justify-content: space-around; }
+    .left { text-align: left; }
+    .right { text-align: right; }
+    </style>
+</body>
+</html>
