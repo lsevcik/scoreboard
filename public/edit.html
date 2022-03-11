@@ -1,16 +1,17 @@
 <html>
 <body>
-    <div>
+    <div class="red" id="disc">Disconnected</div>
+    <div class="edit">
         <span class="left">
             <form autocomplete="off">
-                <input type="text" id="name1" tabindex="1">
-                <input type="number" id="score1" tabindex="2">
+                <input type="text" id="name1" tabindex="1" placeholder="Team 1">
+                <input type="number" id="score1" tabindex="2" placeholder="1">
             </form>
             </span>
             <span class="right">
             <form autocomplete="off">
-                <input type="text" id="name2" tabindex="1">
-                <input type="number" id="score2" tabindex="2">
+                <input type="text" id="name2" tabindex="1" placeholder="Team 2">
+                <input type="number" id="score2" tabindex="2" placeholder="2">
             </form>
             </span>
         </form>
@@ -38,15 +39,20 @@
         return Promise.resolve(score)
     }
 
-    window.setInterval(()=>{getScore().then(updateServer)}, 1000)
+        window.setInterval(()=> {
+                    getScore().then(updateServer).then(()=>document.getElementById('disc').classList.add('hidden')).catch(() =>
+                document.getElementById('disc').classList.remove('hidden'))
+        }, 100)
 
     </script>
     <style>
-    body { color: white; background: black; margin: 0; font-family: sans-serif; }
-    body div { text-align: center; width: 100vw; margin 0; background: gray; display: flex; justify-content: space-around; }
+    body { color: white; background: black; margin: 0; font-family: sans-serif; position: absolute; top: 50%;}
+    input { display: block; font-size: 2em}
+    .edit { text-align: center; width: 100vw; display: flex; justify-content: center; }
+    .red { color: red; text-align: center;}
     .left { text-align: left; }
     .right { text-align: right; }
-    input { display: block; }
+    .hidden { display: none; }
     </style>
 </body>
 </html>

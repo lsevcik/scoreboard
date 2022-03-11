@@ -2,15 +2,23 @@
 <body>
     <div>
         <span class="left">
+            <span>
             <span id="name1">
-            </span>-
+            </span>
+            <span>&ndash;</span>
             <span id="score1">
+            </span>
+            <img src="ivc.png">
             </span>
         </span>
         <span class="right">
+            <span>
+            <img src="ivc.png">
             <span id="name2">
-            </span>-
+            </span>
+            <span>&ndash;</span>
             <span id="score2">
+            </span>
             </span>
         </span>
     </div>
@@ -32,14 +40,21 @@
         document.getElementById('score2').innerHTML = json.secondTeam.score
     }
 
-    window.setInterval(()=>{getNewScore().then(updateScore)}, 1000)
+        window.setInterval(()=>{ getNewScore().then(updateScore) }, 100)
+        /*window.setTimeout(()=>{location.reload()}, 20e3)*/
 
     </script>
     <style>
-    body { color: white; background: black; margin: 0; font-size: 72pt; font-family: sans-serif; }
-    body div { text-align: center; width: 100vw; margin 0; background: gray; display: flex; justify-content: space-around; }
-    .left { text-align: left; }
-    .right { text-align: right; }
+    body { color: white; background: black; margin: 0; font-family: "Copperplate Gothic", "Copperplate"; }
+    body > div { height: 60px; width: 100vw; margin 0; background: #000; display: flex; justify-content: center; font-size: 60px; font-weight: bold; text-shadow: 0 0 6px black; }
+    body > div > span { width: 36vw; vertical-align: center;}
+    body > div > span > span { border-bottom-right-radius: 15px; border-bottom-left-radius: 15px; }
+    .left { text-align: right; margin-right: 7vw;}
+    .left > span { padding: 0 0 0 9; border-right: 2px solid blue; background: linear-gradient(to left, white, blue, blue);}
+    .right { text-align: left; margin-left: 7vw; }
+    .right > span { padding: 0 9 0 0; border-left: 2px solid blue; background: linear-gradient(to right, white, blue, blue);}
+
+    img { max-height: 100%; vertical-align: middle; }
     </style>
 </body>
 </html>
