@@ -4,16 +4,22 @@
     <div class="edit">
         <span class="left">
             <form autocomplete="off">
+                <select class="logoSelect" id="logo1"></select>
                 <input type="text" id="name1" tabindex="1" placeholder="Team 1">
                 <input type="number" id="score1" tabindex="2" placeholder="1">
             </form>
-            </span>
-            <span class="right">
+        </span>
+        <span class="right">
             <form autocomplete="off">
+                <select class="logoSelect" id="logo2"></select>
                 <input type="text" id="name2" tabindex="1" placeholder="Team 2">
                 <input type="number" id="score2" tabindex="2" placeholder="2">
             </form>
-            </span>
+        </span>
+    </div>
+    <div class="edit">
+        <form autocomplete="off" id="iconform">
+            <input type="file" name="newicon">
         </form>
     </div>
     <script type="text/javascript">
@@ -26,28 +32,64 @@
         }
     }
 
+    const getIcons = async () => {
+        res = await window.fetch("/logos")
+        json = await res.json()
+        if (json) {
+            return Promise.resolve(json)
+        } else {
+            return Promise.reject()
+        }
+    }
+
     const getScore = async () => {
     let score = { firstTeam:
-        {name: "", score: 0},
+        {name: "", score: 0, logo: ""},
         secondTeam:
-        {name: "", score: 0}
+        {name: "", score: 0, logo: ""}
     }
         score.firstTeam.name = document.getElementById('name1').value
         score.secondTeam.name = document.getElementById('name2').value
         score.firstTeam.score = document.getElementById('score1').value
         score.secondTeam.score = document.getElementById('score2').value
+        score.firstTeam.logo = document.getElementById('logo1').value
+        score.secondTeam.logo = document.getElementById('logo2').value
         return Promise.resolve(score)
     }
 
-        window.setInterval(()=> {
-                    getScore().then(updateServer).then(()=>document.getElementById('disc').classList.add('hidden')).catch(() =>
-                document.getElementById('disc').classList.remove('hidden'))
-        }, 100)
+    const updateIconOptions = async (json) => {
+        logos1 = new Array
+        logos2 = new Array
+        json.forEach((e) => {
+           logos1.push(new Option(e))
+           logos2.push(new Option(e))
+        })
+        document.getElementsByClassName("logoSelect")[0].replaceChildren(...logos1)
+        document.getElementsByClassName("logoSelect")[1].replaceChildren(...logos2)
+    }
+
+
+    window.setInterval(()=> {
+                    getScore()
+                    .then(updateServer)
+                    .then(()=>
+                        document.getElementById('disc').classList.add('hidden'))
+                        .catch(() =>
+                        document.getElementById('disc').classList.remove('hidden'))
+    }, 100)
+
+                    getIcons()
+                    .then(updateIconOptions)
+
+    document.getElementById("iconform").onchange = (e) => {
+            // upload the icon
+        console.log(e)
+    }
 
     </script>
     <style>
     body { color: white; background: black; margin: 0; font-family: sans-serif; position: absolute; top: 50%;}
-    input { display: block; font-size: 2em}
+    input,select { display: block; font-size: 2em}
     .edit { text-align: center; width: 100vw; display: flex; justify-content: center; }
     .red { color: red; text-align: center;}
     .left { text-align: left; }
